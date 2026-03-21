@@ -1,0 +1,44 @@
+{
+  "name": "create-starknet-app",
+  "version": "0.6.0",
+  "description": "An open-source starknet development stack",
+  "bin": "./bin/cli.mjs",
+  "scripts": {
+    "build-contracts": "./scripts/with-env.sh bash -lc 'cd contracts && scarb build'",
+    "test-contracts": "./scripts/with-env.sh bash -lc 'cd contracts && snforge test'",
+    "format-contracts": "./scripts/with-env.sh bash -lc 'cd contracts && scarb fmt'",
+    "verify-contracts": "./scripts/with-env.sh bash -lc 'cd contracts && sncast verify --contract-address ${npm_config_contract_address:-$LENDING_POOL_ADDRESS} --contract-name ${npm_config_contract_name:-$CONTRACT_NAME} --verifier walnut --network ${npm_config_network:-$STARKNET_NETWORK}'",
+    "contract-scripts": "./scripts/with-env.sh bash -lc 'cd contracts/scripts && sncast script run ${npm_config_script:-$SNCAST_SCRIPT} --url ${npm_config_url:-$STARKNET_RPC_URL}'",
+    "generate-interface": "./scripts/with-env.sh bash -lc 'cd contracts && src5_rs parse'",
+    "prepare-account": "./scripts/with-env.sh bash -lc 'cd contracts && sncast account create --url ${npm_config_url:-$STARKNET_RPC_URL} --name ${npm_config_name:-$STARKNET_ACCOUNT_NAME} --add-profile'",
+    "deploy-account": "./scripts/with-env.sh bash -lc 'cd contracts && sncast --profile ${npm_config_profile:-$SNCAST_PROFILE} account deploy --name ${npm_config_name:-$STARKNET_ACCOUNT_NAME} --fee-token ${npm_config_fee_token:-$SNCAST_FEE_TOKEN} --max-fee ${npm_config_max_fee:-$SNCAST_MAX_FEE}'",
+    "delete-account": "./scripts/with-env.sh bash -lc 'cd contracts && sncast --profile ${npm_config_profile:-$SNCAST_PROFILE} --accounts-file ${npm_config_accounts_file:-$SNCAST_ACCOUNTS_FILE} account delete --name ${npm_config_name:-$STARKNET_ACCOUNT_NAME} --network ${npm_config_network:-$STARKNET_NETWORK}'",
+    "declare-contract": "./scripts/with-env.sh bash -lc 'cd contracts && sncast --profile ${npm_config_profile:-$SNCAST_PROFILE} declare --contract-name ${npm_config_contract_name:-$CONTRACT_NAME}'",
+    "deploy-contract": "./scripts/with-env.sh bash -lc 'cd contracts && sncast --profile ${npm_config_profile:-$SNCAST_PROFILE} deploy --class-hash ${npm_config_class_hash:-$CLASS_HASH}'",
+    "initialize-dojo": "./scripts/with-env.sh bash -lc 'rm -rf contracts && mkdir contracts && cd contracts && sozo init ${npm_config_name:-$DOJO_NAME}'",
+    "build-dojo": "./scripts/with-env.sh bash -lc 'cd contracts/${npm_config_name:-$DOJO_NAME} && sozo build'",
+    "deploy-dojo-katana": "./scripts/with-env.sh bash -lc 'cd contracts/${npm_config_name:-$DOJO_NAME} && katana --disable-fee --allowed-origins \"*\"'",
+    "migrate-dojo": "./scripts/with-env.sh bash -lc 'cd contracts/${npm_config_name:-$DOJO_NAME} && sozo migrate apply'",
+    "devnet": "./scripts/with-env.sh bash -lc 'sh ./devnet/start.sh'",
+    "start": "./scripts/with-env.sh bash -lc 'cd frontend && npm run dev'",
+    "install": "cd scripts && bash install_tools.sh $(test -n \"$npm_config_scarb_version\" && echo --scarb $npm_config_scarb_version) $(test -n \"$npm_config_starknet_foundry_version\" && echo --starknet-foundry $npm_config_starknet_foundry_version) $(test -n \"$npm_config_foundry_version\" && echo --foundry $npm_config_foundry_version) $(test -n \"$npm_config_dojo_version\" && echo --dojo $npm_config_dojo_version) && cd ../frontend && npm install --legacy-peer-deps",
+    "install-tools": "snfoundryup && foundryup",
+    "build-ui": "./scripts/with-env.sh bash -lc 'cd frontend && npm run build'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/horuslabsio/Starknet-Scaffold"
+  },
+  "keywords": [
+    "Starknet",
+    "Starknet-frontend",
+    "Starknet-react",
+    "Starknetkit"
+  ],
+  "author": "Darlington Nnam",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/horuslabsio/Starknet-Scaffold/issues"
+  },
+  "homepage": "https://github.com/horuslabsio/Starknet-Scaffold#readme"
+}
