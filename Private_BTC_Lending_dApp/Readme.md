@@ -2,7 +2,32 @@
 
 
 # DEPRECATED
- This project has been deprecated and is no longer actively maintained. We recommend using  [Scaffold-stark-2](https://github.com/Scaffold-Stark/scaffold-stark-2).
+This project has been deprecated and is no longer actively maintained. We recommend using [scaffold-stark-2](https://github.com/Scaffold-Stark/scaffold-stark-2).
+
+## Migration to Scaffold-Stark-2
+
+This repository now includes a migration helper so you can bootstrap `scaffold-stark-2` and export your current BTC lending contracts and Starknet env settings.
+
+### Quick commands
+
+```bash
+# Clone scaffold-stark-2 into ./scaffold-stark-2
+npm run scaffold2:init
+
+# Clone (if needed) + copy contracts + export env snapshot
+npm run scaffold2:migrate
+```
+
+### What gets exported
+
+- Contracts from `contracts/src` and tests from `contracts/tests`
+- `Scarb.toml` snapshot
+- `.env` migration snapshot with Starknet-related keys
+
+The exported files are written under:
+
+- `scaffold-stark-2/.../migrations/private_btc_lending/` (contracts)
+- `scaffold-stark-2/migrations/private_btc_lending/.env.migration` (env snapshot)
 
 
 🧪 An open-source, up-to-date toolkit for building decentralized applications (dapps) on Starknet. It's designed to make it easier for developers to create and deploy smart contracts and build user interfaces that interact with those contracts.
@@ -164,7 +189,7 @@ npm run delete-account --profile=<MY_PROFILE> --accountfile=<PATH_TO_ACCOUNT_FIL
 To declare a contract:
 
 ```
-npm run declare-contract --profile=<MY_PROFILE> --contract=<CONTRACT_NAME> --feetoken=<FEE_TOKEN>
+npm run declare-contract --profile=<MY_PROFILE> --contract=<CONTRACT_NAME>
 ```
 
 #### Deploy Contract
@@ -172,7 +197,7 @@ npm run declare-contract --profile=<MY_PROFILE> --contract=<CONTRACT_NAME> --fee
 To deploy a contract:
 
 ```
-npm run deploy-contract --profile=<MY_PROFILE> --feetoken=<FEE_TOKEN> --class=<CONTRACT_CLASSHASH>
+npm run deploy-contract --profile=<MY_PROFILE> --class=<CONTRACT_CLASSHASH>
 ```
 
 #### Run Starknet-Devnet

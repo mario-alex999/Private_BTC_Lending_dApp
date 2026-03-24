@@ -1,0 +1,71 @@
+scalar BigInt
+scalar DateTime
+
+enum SourceChain {
+  ETHEREUM
+  BNB
+  SOLANA
+  XRP
+  TRON
+  BITCOIN
+}
+
+enum PositionVisibility {
+  PUBLIC
+  PRIVATE
+}
+
+type Position {
+  id: ID!
+  starknetAddress: String!
+  chainId: BigInt!
+  assetId: Int!
+  collateralAmount18: BigInt!
+  debtUsd18: BigInt!
+  healthFactorWad: BigInt!
+  maxLtvBps: Int!
+  liquidationThresholdBps: Int!
+  privateCommitmentHash: String
+  visibility: PositionVisibility!
+  frozen: Boolean!
+  updatedAt: DateTime!
+}
+
+type BorrowLimit {
+  starknetAddress: String!
+  chainId: BigInt!
+  assetId: Int!
+  collateralUsd18: BigInt!
+  debtUsd18: BigInt!
+  maxBorrowableUsd18: BigInt!
+  availableBorrowUsd18: BigInt!
+  healthFactorWad: BigInt!
+  privacyMode: Boolean!
+}
+
+type Deposit {
+  depositId: String!
+  chainId: BigInt!
+  assetId: Int!
+  txHash: String!
+  confirmationDepth: Int!
+  finalityTarget: Int!
+  status: String!
+}
+
+type Query {
+  positions(starknetAddress: String!): [Position!]!
+  borrowLimit(starknetAddress: String!, chainId: BigInt!, assetId: Int!): BorrowLimit!
+  deposits(starknetAddress: String!, status: String): [Deposit!]!
+}
+
+type Mutation {
+  enqueueProofRelay(
+    requestId: String!
+    starknetAddress: String!
+    chainId: BigInt!
+    assetId: Int!
+    publicInputHash: String!
+    proofPayload: String!
+  ): String!
+}

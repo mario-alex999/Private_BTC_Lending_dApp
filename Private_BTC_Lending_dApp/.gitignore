@@ -3,3 +3,5 @@ snfoundry.toml
 .DS_Store
 .env
 .env.*
+backend/target
+scaffold-stark-2/

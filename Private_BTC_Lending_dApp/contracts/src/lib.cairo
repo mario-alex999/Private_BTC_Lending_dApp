@@ -1,3 +1,4 @@
+mod collateral_manager;
 mod garaga_inequality_verifier_adapter;
 mod hello_starknet;
 mod herodotus_fact_registry_adapter;
