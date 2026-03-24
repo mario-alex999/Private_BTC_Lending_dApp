@@ -1,5 +1,5 @@
-# Main function to call installation scripts
 #!/bin/bash
+set -euo pipefail
 
 # Function to check if a command exists
 command_exists () {
@@ -27,11 +27,14 @@ install_scarb() {
 install_starknet_foundry() {
     local version=$1
 
-    curl -L https://raw.githubusercontent.com/foundry-rs/starknet-foundry/master/scripts/install.sh | sh
+    if ! command_exists snfoundryup; then
+        echo "Installing Starknet-Foundry installer..."
+        curl -L https://raw.githubusercontent.com/foundry-rs/starknet-foundry/master/scripts/install.sh | sh
+    fi
 
     if [ -n "$version" ]; then
         echo "Installing Starknet-Foundry $version..."
-        snfoundryup --version $version
+        snfoundryup --version "$version"
     else 
         if command_exists sncast && command_exists snforge; then
             echo "Starknet-Foundry is already installed."
@@ -44,14 +47,19 @@ install_starknet_foundry() {
 
 # Install Foundry
 install_foundry() {
+    local version=$1
     local foundry_install_dir="$HOME/.foundry/bin"
 
-    curl -L https://foundry.paradigm.xyz | bash
-    export PATH="$PATH:$foundry_install_dir"
+    if ! command_exists foundryup; then
+        echo "Installing Foundry installer..."
+        curl -L https://foundry.paradigm.xyz | bash
+    fi
+
+    export PATH="$foundry_install_dir:$PATH"
 
     if [ -n "$version" ]; then
         echo "Installing Foundry $version..."
-        foundryup --version $version
+        foundryup --version "$version"
     else 
         if command_exists forge; then
             echo "Foundry is already installed."
@@ -67,13 +75,16 @@ install_dojo() {
     local version=$1
     local dojo_install_dir="$HOME/.dojo/bin"
 
-    curl -L https://install.dojoengine.org | bash
+    if ! command_exists dojoup; then
+        echo "Installing Dojo installer..."
+        curl -L https://install.dojoengine.org | bash
+    fi
 
-    export PATH="$PATH:$dojo_install_dir"
+    export PATH="$dojo_install_dir:$PATH"
 
     if [ -n "$version" ]; then
         echo "Installing Dojo $version..."
-        dojoup --version $version
+        dojoup --version "$version"
     else 
         if command_exists dojoup; then
             echo "Dojo is already installed."
